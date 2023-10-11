@@ -2,6 +2,7 @@
 #include <stdexcept>
 using namespace std;
 
+// NOTE: i used g++ main.cpp -o main to compile this
 template <typename T>
 class AVLTree
 {
@@ -18,6 +19,7 @@ private:
 
     Node *root;
     int (*compare)(const T &, const T &);
+    // Helper function to get the height of a node
 
     int height(Node *node)
     {
@@ -25,6 +27,7 @@ private:
             return 0;
         return node->height;
     }
+    // Helper function to calculate the balance factor of a node
 
     int balanceFactor(Node *node)
     {
@@ -32,6 +35,7 @@ private:
             return 0;
         return height(node->left) - height(node->right);
     }
+    // Helper function to perform a right rotation
 
     Node *rotateRight(Node *y)
     {
@@ -46,6 +50,7 @@ private:
 
         return x;
     }
+    // Helper function to perform a left rotation
 
     Node *rotateLeft(Node *x)
     {
@@ -60,6 +65,7 @@ private:
 
         return y;
     }
+    // Helper function to insert a value into the AVL tree
 
     Node *insert(Node *node, const T &value)
     {
@@ -100,6 +106,7 @@ private:
 
         return node;
     }
+    // Helper function to find the node with the smallest value in a subtree
 
     Node *minValueNode(Node *node)
     {
@@ -108,6 +115,7 @@ private:
             current = current->left;
         return current;
     }
+    // Helper function to remove a value from the AVL tree
 
     Node *remove(Node *node, const T &value)
     {
@@ -172,6 +180,7 @@ private:
 
         return node;
     }
+    // Helper function to search for a value in the AVL tree
 
     Node *search(Node *node, const T &value)
     {
@@ -184,6 +193,7 @@ private:
         else
             return node;
     }
+    // Helper function to count the number of elements in the tree
 
     int count(Node *node)
     {
@@ -230,9 +240,9 @@ int compareFunction(const T &a, const T &b)
 
 int main()
 {
-    AVLTree<int> avlTree(compareFunction < int);
+    AVLTree<int> avlTree(compareFunction<int>);
 
-    // Insert more elements
+    // Insert elements
     avlTree.insert(10);
     avlTree.insert(5);
     avlTree.insert(15);
@@ -241,6 +251,7 @@ int main()
     avlTree.insert(12);
     avlTree.insert(20);
     avlTree.insert(1);
+    avlTree.insert(-2);
 
     // Search elements
     try
@@ -253,11 +264,17 @@ int main()
         cout << e.what() << endl;
     }
 
+    // Count elements before removal of elements
+    cout << "Number of elements: " << avlTree.count() << endl;
+
     // Remove elements
     avlTree.remove(7);
+    avlTree.remove(1);
 
     // Count elements
     cout << "Number of elements: " << avlTree.count() << endl;
 
+    // Insert a duplicate number which should throw an error
+    avlTree.insert(20);
     return 0;
 }
